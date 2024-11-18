@@ -1,0 +1,15 @@
+[Unit]
+Description=The PHP FastCGI Process Manager
+After=network.target
+
+[Service]
+Type=forking
+PIDFile=/usr/local/php/var/run/php-fpm.pid
+ExecStartPre=/bin/mkdir -p /usr/local/php/var/run
+ExecStart=/usr/local/php/sbin/php-fpm --fpm-config /usr/local/php/etc/php-fpm.conf -y /usr/local/php/etc/php-fpm.conf
+ExecStop=/bin/kill -QUIT $(cat /usr/local/php/var/run/php-fpm.pid)
+PrivateTmp=true
+
+[Install]
+WantedBy=multi-user.target
+
